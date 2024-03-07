@@ -9,14 +9,11 @@ local M = {}
 local boo_buffer = nil
 local boo_win = nil
 function M.boo()
-	if boo_buffer then
-		if vim.api.nvim_buf_is_valid(boo_buffer) then
-			vim.api.nvim_buf_delete(boo_buffer, { force = true })
-		else
-			boo_buffer = nil
-		end
+	if boo_buffer ~= nil and vim.api.nvim_buf_is_valid(boo_buffer) then
+		vim.api.nvim_buf_delete(boo_buffer, { force = true })
 	end
 	boo_buffer = vim.api.nvim_create_buf(false, true)
+
 	for _, key in ipairs(config.escape_mappings) do
 		vim.keymap.set('n', key, function()
 			vim.api.nvim_win_close(boo_win, true)
@@ -47,11 +44,12 @@ function M.boo()
 	end)
 
 	local width = 0
+	local height = 0
 	for _, line in ipairs(lsp_info) do
 		width = math.max(width, vim.fn.strdisplaywidth(line))
 	end
 	width = math.min(config.max_width, width)
-	local height = math.min(config.max_height, vim.api.nvim_buf_line_count(boo_buffer))
+	height = math.min(config.max_height, vim.api.nvim_buf_line_count(boo_buffer))
 
 	local win_config = vim.tbl_deep_extend('keep', config.win_opts, {
 		width = width,
