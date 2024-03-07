@@ -21,7 +21,11 @@ local buffer = nil
 
 function M.peekaboo()
 	if buffer then
-		vim.api.nvim_buf_delete(buffer, { force = true })
+		if vim.api.nvim_buf_is_valid(buffer) then
+			vim.api.nvim_buf_delete(buffer, { force = true })
+		else
+			buffer = nil
+		end
 	end
 	buffer = vim.api.nvim_create_buf(false, true)
 	vim.api.nvim_buf_set_option(buffer, 'buftype', 'nofile')
