@@ -2,22 +2,7 @@ local utils = require 'peekaboo.utils'
 local get_lsp_info = utils.get_lsp_info
 local modify_buffer = utils.modify_buffer
 
-local default_config = {
-	win_opts = {
-		title = 'LSP Info',
-		title_pos = 'center',
-		relative = 'cursor',
-		row = 1,
-		col = 0,
-		style = 'minimal',
-		border = 'rounded',
-		focusable = true,
-	},
-	max_width = 80,
-	max_height = 20,
-}
-
-local config = {}
+local config = require 'peekaboo.config'
 
 local M = {}
 
@@ -60,7 +45,7 @@ function M.peekaboo()
 end
 
 function M.setup(opts)
-	config = vim.tbl_deep_extend('force', default_config, opts or {})
+	config.setup(opts)
 end
 
 return M
