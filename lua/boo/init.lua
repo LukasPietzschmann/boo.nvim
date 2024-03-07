@@ -16,7 +16,7 @@ function M.boo()
 
 	for _, key in ipairs(config.escape_mappings) do
 		vim.keymap.set('n', key, function()
-			vim.api.nvim_win_close(boo_win, true)
+			M.close()
 		end, { buffer = boo_buffer })
 	end
 	if config.close_on_leave then
@@ -25,7 +25,7 @@ function M.boo()
 			desc = 'Closes boo when exiting the buffer',
 			group = vim.api.nvim_create_augroup('Closeboo', { clear = true }),
 			callback = function()
-				vim.api.nvim_win_close(boo_win, true)
+				M.close()
 			end,
 		})
 	end
@@ -56,6 +56,12 @@ function M.boo()
 		height = height,
 	})
 	boo_win = vim.api.nvim_open_win(boo_buffer, true, win_config)
+end
+
+function M.close()
+	if boo_win ~= nil and vim.api.nvim_win_is_valid(boo_win) then
+		vim.api.nvim_win_close(boo_win, true)
+	end
 end
 
 function M.setup(opts)

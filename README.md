@@ -35,6 +35,10 @@ local boo = require('boo')
 ```lua
 boo.boo()
 ```
+3. You can also manually close the pop-up with
+```lua
+boo.close()
+```
 
 ## Configuration
 Here comes the default configuration with some explanation:
