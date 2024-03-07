@@ -1,5 +1,5 @@
 # Boo 👻
-Quickly popup some lsp-powered information of the thing your cursor is on.
+Quickly pop-up some lsp-powered information of the thing your cursor is on.
 
 <p align="center">
   <img src="https://github.com/LukasPietzschmann/boo.nvim/assets/49213919/2a54bb7d-cf7a-4248-bd5a-64dfbe2d776a" width="900px" />
@@ -19,7 +19,7 @@ Install boo with your favorite package manager.
 ```
 
 #### Others
-With other package managers, you propably need to call the setup function yourself:
+With other package managers, you probably need to call the setup function yourself:
 ```lua
 require('boo').setup({
   -- here goes your config :)
@@ -31,7 +31,7 @@ require('boo').setup({
 ```lua
 local boo = require('boo')
 ```
-2. Then, you cann call the `boo` function, which will show the popup
+2. Then, you can call the `boo` function, which will show the pop-up
 ```lua
 boo.boo()
 ```
@@ -57,7 +57,7 @@ Here comes the default configuration with some explanation:
   max_width = 80,
   -- The window will not be taller than max_height (in character cells)
   max_height = 20,
-  -- When the boo window is focued, pressing one of these will close it.
+  -- When the boo window is focused, pressing one of these will close it.
   -- They will only be mapped in normalmode
   escape_mappings = { 'q', '<esc>' },
   -- When the boo window is focused, and you'll focus another buffer,
