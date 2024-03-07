@@ -22,6 +22,16 @@ function M.peekaboo()
 			vim.api.nvim_win_close(peekaboo_win, true)
 		end, { buffer = peekaboo_buffer })
 	end
+	if config.close_on_leave then
+		vim.api.nvim_create_autocmd('BufLeave', {
+			buffer = peekaboo_buffer,
+			desc = 'Closes peekaboo when exiting the buffer',
+			group = vim.api.nvim_create_augroup('ClosePeekaboo', { clear = true }),
+			callback = function()
+				vim.api.nvim_win_close(peekaboo_win, true)
+			end,
+		})
+	end
 	vim.api.nvim_buf_set_option(peekaboo_buffer, 'buftype', 'nofile')
 	vim.api.nvim_buf_set_option(peekaboo_buffer, 'modifiable', false)
 	vim.api.nvim_buf_set_option(peekaboo_buffer, 'readonly', true)

@@ -14,6 +14,7 @@ M.default = {
 	max_width = 80,
 	max_height = 20,
 	escape_mappings = { 'q', '<esc>' },
+	close_on_leave = true,
 }
 
 local config = M.default
