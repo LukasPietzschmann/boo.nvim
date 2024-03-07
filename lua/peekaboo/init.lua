@@ -7,6 +7,7 @@ local config = require 'peekaboo.config'
 local M = {}
 
 local peekaboo_buffer = nil
+local peekaboo_win = nil
 function M.peekaboo()
 	if peekaboo_buffer then
 		if vim.api.nvim_buf_is_valid(peekaboo_buffer) then
@@ -16,6 +17,11 @@ function M.peekaboo()
 		end
 	end
 	peekaboo_buffer = vim.api.nvim_create_buf(false, true)
+	for _, key in ipairs(config.escape_mappings) do
+		vim.keymap.set('n', key, function()
+			vim.api.nvim_win_close(peekaboo_win, true)
+		end, { buffer = peekaboo_buffer })
+	end
 	vim.api.nvim_buf_set_option(peekaboo_buffer, 'buftype', 'nofile')
 	vim.api.nvim_buf_set_option(peekaboo_buffer, 'modifiable', false)
 	vim.api.nvim_buf_set_option(peekaboo_buffer, 'readonly', true)
@@ -41,7 +47,7 @@ function M.peekaboo()
 		width = width,
 		height = height,
 	})
-	vim.api.nvim_open_win(peekaboo_buffer, true, win_config)
+	peekaboo_win = vim.api.nvim_open_win(peekaboo_buffer, true, win_config)
 end
 
 function M.setup(opts)
