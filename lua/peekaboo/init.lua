@@ -81,7 +81,24 @@ function M.peekaboo()
 	vim.api.nvim_buf_set_option(buffer, 'modifiable', false)
 	vim.api.nvim_buf_set_option(buffer, 'readonly', true)
 
-	local infos = vim.tbl_deep_extend('keep', get_lsp_info(), get_diagnostics())
+	local raw_lsp_info = get_lsp_info()
+	local lsp_info = {}
+	if #raw_lsp_info > 0 then
+		lsp_info = vim.list_extend({ '# LSP Info', '---' }, raw_lsp_info)
+	end
+
+	local raw_diagnostics = get_diagnostics()
+	local diagnostics = {}
+	if #raw_diagnostics > 0 then
+		diagnostics = vim.list_extend({ '# Diagnostics', '---' }, raw_diagnostics)
+	end
+
+	if #raw_lsp_info <= 0 and #raw_diagnostics <= 0 then
+		vim.notify('No info available', vim.log.levels.INFO, { title = 'Peekaboo' })
+		return
+	end
+
+	local infos = vim.tbl_deep_extend('keep', lsp_info, diagnostics)
 	modify_buffer(buffer, function(buf)
 		vim.lsp.util.stylize_markdown(buf, infos, {})
 	end)
