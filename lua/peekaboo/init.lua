@@ -3,14 +3,14 @@ local default_config = {
 		title = 'Info',
 		title_pos = 'center',
 		relative = 'cursor',
-		width = 50,
-		height = 6,
 		row = 1,
 		col = 0,
 		style = 'minimal',
 		border = 'rounded',
 		focusable = true,
 	},
+	max_width = 80,
+	max_height = 20,
 }
 
 local config = {}
@@ -86,7 +86,18 @@ function M.peekaboo()
 		vim.lsp.util.stylize_markdown(buf, infos, {})
 	end)
 
-	vim.api.nvim_open_win(buffer, true, config.win_opts)
+	local width = 0
+	for _, line in ipairs(infos) do
+		width = math.max(width, vim.fn.strdisplaywidth(line))
+	end
+	width = math.min(config.max_width, width)
+	local height = math.min(config.max_height, vim.api.nvim_buf_line_count(buffer))
+
+	local win_config = vim.tbl_deep_extend('keep', config.win_opts, {
+		width = width,
+		height = height,
+	})
+	vim.api.nvim_open_win(buffer, true, win_config)
 end
 
 function M.setup(opts)
