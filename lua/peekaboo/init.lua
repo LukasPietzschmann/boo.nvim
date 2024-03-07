@@ -58,16 +58,6 @@ local function get_lsp_info()
 	return result
 end
 
-local function get_diagnostics()
-	local result = {}
-	local row = vim.api.nvim_win_get_cursor(0)[1]
-	local diagnostics = vim.diagnostic.get(0, { lnum = row })
-	for _, diagnostic in ipairs(diagnostics) do
-		table.insert(result, diagnostic.message)
-	end
-	return result
-end
-
 function M.peekaboo()
 	if buffer then
 		if vim.api.nvim_buf_is_valid(buffer) then
@@ -81,30 +71,18 @@ function M.peekaboo()
 	vim.api.nvim_buf_set_option(buffer, 'modifiable', false)
 	vim.api.nvim_buf_set_option(buffer, 'readonly', true)
 
-	local raw_lsp_info = get_lsp_info()
-	local lsp_info = {}
-	if #raw_lsp_info > 0 then
-		lsp_info = vim.list_extend({ '# LSP Info', '---' }, raw_lsp_info)
-	end
-
-	local raw_diagnostics = get_diagnostics()
-	local diagnostics = {}
-	if #raw_diagnostics > 0 then
-		diagnostics = vim.list_extend({ '# Diagnostics', '---' }, raw_diagnostics)
-	end
-
-	if #raw_lsp_info <= 0 and #raw_diagnostics <= 0 then
+	local lsp_info = get_lsp_info()
+	if #lsp_info <= 0 then
 		vim.notify('No info available', vim.log.levels.INFO, { title = 'Peekaboo' })
 		return
 	end
 
-	local infos = vim.tbl_deep_extend('keep', lsp_info, diagnostics)
 	modify_buffer(buffer, function(buf)
-		vim.lsp.util.stylize_markdown(buf, infos, {})
+		vim.lsp.util.stylize_markdown(buf, lsp_info, {})
 	end)
 
 	local width = 0
-	for _, line in ipairs(infos) do
+	for _, line in ipairs(lsp_info) do
 		width = math.max(width, vim.fn.strdisplaywidth(line))
 	end
 	width = math.min(config.max_width, width)
