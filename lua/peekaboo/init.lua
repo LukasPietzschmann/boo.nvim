@@ -1,6 +1,6 @@
 local default_config = {
 	win_opts = {
-		title = 'Info',
+		title = 'LSP Info',
 		title_pos = 'center',
 		relative = 'cursor',
 		row = 1,
