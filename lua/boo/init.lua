@@ -29,6 +29,17 @@ function M.boo()
 			end,
 		})
 	end
+	if config.close_on_mouse_move then
+		vim.api.nvim_create_autocmd('CursorMoved', {
+			buffer = 0,
+			desc = 'Closes boo when moving the cursor',
+			group = vim.api.nvim_create_augroup('Closeboo', { clear = true }),
+			callback = function()
+				vim.notify('CursorMoved', vim.log.levels.INFO, { title = 'boo' })
+				return M.close()
+			end,
+		})
+	end
 	vim.api.nvim_buf_set_option(boo_buffer, 'buftype', 'nofile')
 	vim.api.nvim_buf_set_option(boo_buffer, 'modifiable', false)
 	vim.api.nvim_buf_set_option(boo_buffer, 'readonly', true)
@@ -55,7 +66,7 @@ function M.boo()
 		width = width,
 		height = height,
 	})
-	boo_win = vim.api.nvim_open_win(boo_buffer, true, win_config)
+	boo_win = vim.api.nvim_open_win(boo_buffer, config.focus_on_open, win_config)
 end
 
 function M.close()

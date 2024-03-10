@@ -14,7 +14,9 @@ M.default = {
 	max_width = 80,
 	max_height = 20,
 	escape_mappings = { 'q', '<esc>' },
+	focus_on_open = true,
 	close_on_leave = true,
+	close_on_mouse_move = true,
 }
 
 local config = M.default

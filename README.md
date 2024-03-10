@@ -64,8 +64,14 @@ Here comes the default configuration with some explanation:
 	-- When the boo window is focused, pressing one of these will close it.
 	-- They will only be mapped in normalmode
 	escape_mappings = { 'q', '<esc>' },
+	-- Focus boo's window automatically after it's created
+	focus_on_open = true,
 	-- When the boo window is focused, and you'll focus another buffer,
 	-- the window will be closed when this is set to true
 	close_on_leave = true,
+	-- When moving the cursor in the buffer that boo was opened from, boo
+	-- will be closed. This makes most sense when paired with
+	-- `focus_on_open = false`
+	close_on_mouse_move = true,
 }
 ```
