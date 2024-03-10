@@ -8,6 +8,11 @@ local M = {}
 
 local boo_buffer = nil
 local boo_win = nil
+
+local close_callback = function()
+	return M.close()
+end
+
 function M.boo()
 	if boo_buffer ~= nil and vim.api.nvim_buf_is_valid(boo_buffer) then
 		vim.api.nvim_buf_delete(boo_buffer, { force = true })
@@ -24,9 +29,7 @@ function M.boo()
 			buffer = boo_buffer,
 			desc = 'Closes boo when exiting the buffer',
 			group = vim.api.nvim_create_augroup('Closeboo', { clear = true }),
-			callback = function()
-				return M.close()
-			end,
+			callback = close_callback,
 		})
 	end
 	if config.close_on_mouse_move then
@@ -34,9 +37,7 @@ function M.boo()
 			buffer = 0,
 			desc = 'Closes boo when moving the cursor',
 			group = vim.api.nvim_create_augroup('Closeboo', { clear = true }),
-			callback = function()
-				return M.close()
-			end,
+			callback = close_callback,
 		})
 	end
 	vim.api.nvim_buf_set_option(boo_buffer, 'buftype', 'nofile')
