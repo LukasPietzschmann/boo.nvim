@@ -35,7 +35,6 @@ function M.boo()
 			desc = 'Closes boo when moving the cursor',
 			group = vim.api.nvim_create_augroup('Closeboo', { clear = true }),
 			callback = function()
-				vim.notify('CursorMoved', vim.log.levels.INFO, { title = 'boo' })
 				return M.close()
 			end,
 		})
