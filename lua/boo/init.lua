@@ -33,7 +33,7 @@ function M.boo()
 		})
 	end
 	if config.close_on_mouse_move then
-		vim.api.nvim_create_autocmd('CursorMoved', {
+		vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
 			buffer = 0,
 			desc = 'Closes boo when moving the cursor',
 			group = vim.api.nvim_create_augroup('Closeboo', { clear = true }),
