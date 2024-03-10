@@ -25,7 +25,7 @@ function M.boo()
 			desc = 'Closes boo when exiting the buffer',
 			group = vim.api.nvim_create_augroup('Closeboo', { clear = true }),
 			callback = function()
-				M.close()
+				return M.close()
 			end,
 		})
 	end
@@ -59,9 +59,11 @@ function M.boo()
 end
 
 function M.close()
-	if boo_win ~= nil and vim.api.nvim_win_is_valid(boo_win) then
-		vim.api.nvim_win_close(boo_win, true)
+	if boo_win == nil or not vim.api.nvim_win_is_valid(boo_win) then
+		return false
 	end
+	vim.api.nvim_win_close(boo_win, true)
+	return true
 end
 
 function M.setup(opts)
