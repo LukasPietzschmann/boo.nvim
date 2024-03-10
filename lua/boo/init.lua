@@ -20,9 +20,8 @@ function M.boo()
 	boo_buffer = vim.api.nvim_create_buf(false, true)
 
 	for _, key in ipairs(config.escape_mappings) do
-		vim.keymap.set('n', key, function()
-			M.close()
-		end, { buffer = boo_buffer })
+		vim.keymap.set('n', key, close_callback, { buffer = 0 })
+		vim.keymap.set('n', key, close_callback, { buffer = boo_buffer })
 	end
 	if config.close_on_leave then
 		vim.api.nvim_create_autocmd('BufLeave', {
