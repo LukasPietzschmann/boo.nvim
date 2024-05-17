@@ -39,9 +39,9 @@ function M.boo()
 			callback = close_callback,
 		})
 	end
-	vim.api.nvim_buf_set_option(boo_buffer, 'buftype', 'nofile')
-	vim.api.nvim_buf_set_option(boo_buffer, 'modifiable', false)
-	vim.api.nvim_buf_set_option(boo_buffer, 'readonly', true)
+	vim.api.nvim_set_option_value('buftype', 'nofile', { buf = boo_buffer })
+	vim.api.nvim_set_option_value('modifiable', false, { buf = boo_buffer })
+	vim.api.nvim_set_option_value('readonly', true, { buf = boo_buffer })
 
 	local lsp_info = get_lsp_info()
 	if #lsp_info <= 0 then
