@@ -13,6 +13,10 @@ local close_callback = function()
 	return M.close()
 end
 
+local open_callback = function()
+	return M.boo()
+end
+
 function M.boo()
 	if boo_buffer ~= nil and vim.api.nvim_buf_is_valid(boo_buffer) then
 		vim.api.nvim_buf_delete(boo_buffer, { force = true })
@@ -23,6 +27,7 @@ function M.boo()
 		vim.keymap.set('n', key, close_callback, { buffer = 0 })
 		vim.keymap.set('n', key, close_callback, { buffer = boo_buffer })
 	end
+
 	if config.close_on_leave then
 		vim.api.nvim_create_autocmd('BufLeave', {
 			buffer = boo_buffer,
@@ -31,21 +36,36 @@ function M.boo()
 			callback = close_callback,
 		})
 	end
-	if config.close_on_mouse_move then
-		vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+	if config.close_on_cursor_move then
+		vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI', 'InsertEnter' }, {
 			buffer = 0,
 			desc = 'Closes boo when moving the cursor',
 			group = vim.api.nvim_create_augroup('Closeboo', { clear = true }),
 			callback = close_callback,
 		})
 	end
+	if config.open_on_cursor_hold then
+		vim.api.nvim_create_autocmd({ 'CursorHold', 'InsertLeave' }, {
+			buffer = 0,
+			desc = 'Open boo when holding cursor',
+			group = vim.api.nvim_create_augroup('Openboo', { clear = true }),
+			callback = open_callback,
+		})
+	end
+
+	-- vim.api.nvim_create_autocmd({ 'WinLeave', 'BufWinLeave', 'BufDelete', 'ModeChanged', 'InsertEnter' }, {
+	-- 	buffer = 0,
+	-- 	desc = 'Closes boo on various conditions',
+	-- 	group = vim.api.nvim_create_augroup('ClosebooOnEvents', { clear = true }),
+	-- 	callback = close_callback,
+	-- })
+
 	vim.api.nvim_set_option_value('buftype', 'nofile', { buf = boo_buffer })
 	vim.api.nvim_set_option_value('modifiable', false, { buf = boo_buffer })
 	vim.api.nvim_set_option_value('readonly', true, { buf = boo_buffer })
 
 	local lsp_info = get_lsp_info()
 	if #lsp_info <= 0 then
-		vim.notify('No info available', vim.log.levels.INFO, { title = 'boo' })
 		return
 	end
 
