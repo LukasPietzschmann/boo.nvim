@@ -16,8 +16,8 @@ M.default = {
 	escape_mappings = { 'q', '<esc>' },
 	focus_on_open = true,
 	close_on_leave = true,
-	close_on_mouse_move = true,
-	open_on_mouse_hold = true,
+	close_on_cursor_move = true,
+	open_on_cursor_hold = true,
 }
 
 local config = M.default
