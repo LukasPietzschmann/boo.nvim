@@ -1,4 +1,5 @@
 # Boo 👻
+
 Quickly pop-up some lsp-powered information of the thing your cursor is on.
 
 <p align="center">
@@ -6,9 +7,11 @@ Quickly pop-up some lsp-powered information of the thing your cursor is on.
 </p>
 
 ## Installation
+
 Install boo with your favorite package manager.
 
 #### lazy.nvim
+
 ```lua
 {
 	'LukasPietzschmann/boo.nvim',
@@ -19,7 +22,9 @@ Install boo with your favorite package manager.
 ```
 
 #### Others
+
 With other package managers, you probably need to call the setup function yourself:
+
 ```lua
 require('boo').setup({
 	-- here goes your config :)
@@ -27,21 +32,29 @@ require('boo').setup({
 ```
 
 ## Usage
+
 1. You have to load boo
+
 ```lua
 local boo = require('boo')
 ```
+
 2. Then, you can call the `boo` function, which will show the pop-up
+
 ```lua
 boo.boo()
 ```
+
 3. You can also manually close the pop-up with
+
 ```lua
 boo.close()
 ```
 
 ## Configuration
+
 Here comes the default configuration with some explanation:
+
 ```lua
 {
 	-- win_opts will be used when creating the window. You can put everything here,
@@ -73,5 +86,9 @@ Here comes the default configuration with some explanation:
 	-- will be closed. This makes most sense when paired with
 	-- `focus_on_open = false`
 	close_on_mouse_move = true,
+	-- When holding the cursor in the buffer, boo
+	-- will be opened. This makes most sense when paired with
+	-- `focus_on_open = false`
+	open_on_mouse_hold = true,
 }
 ```
