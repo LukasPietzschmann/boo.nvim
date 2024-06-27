@@ -13,6 +13,10 @@ local close_callback = function()
 	return M.close()
 end
 
+local open_callback = function()
+	return M.boo()
+end
+
 function M.boo()
 	if boo_buffer ~= nil and vim.api.nvim_buf_is_valid(boo_buffer) then
 		vim.api.nvim_buf_delete(boo_buffer, { force = true })
@@ -37,6 +41,14 @@ function M.boo()
 			desc = 'Closes boo when moving the cursor',
 			group = vim.api.nvim_create_augroup('Closeboo', { clear = true }),
 			callback = close_callback,
+		})
+	end
+	if config.open_on_cursor_hold then
+		vim.api.nvim_create_autocmd('CursorHold', {
+			buffer = 0,
+			desc = 'Opens boo when holding the cursor',
+			group = vim.api.nvim_create_augroup('Openboo', { clear = true }),
+			callback = open_callback,
 		})
 	end
 	vim.api.nvim_set_option_value('buftype', 'nofile', { buf = boo_buffer })
