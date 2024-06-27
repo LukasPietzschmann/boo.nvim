@@ -36,7 +36,7 @@ function M.boo()
 			callback = close_callback,
 		})
 	end
-	if config.close_on_mouse_move then
+	if config.close_on_cursor_move then
 		vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI', 'InsertEnter' }, {
 			buffer = 0,
 			desc = 'Closes boo when moving the cursor',
@@ -44,7 +44,7 @@ function M.boo()
 			callback = close_callback,
 		})
 	end
-	if config.open_on_mouse_hold then
+	if config.open_on_cursor_hold then
 		vim.api.nvim_create_autocmd({ 'CursorHold', 'InsertLeave' }, {
 			buffer = 0,
 			desc = 'Open boo when holding cursor',
