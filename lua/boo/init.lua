@@ -13,11 +13,13 @@ local close_callback = function()
 	return M.close()
 end
 
-local open_callback = function()
-	return M.boo()
+local open_callback = function(...)
+	return M.boo(...)
 end
 
-function M.boo()
+function M.boo(silent)
+	silent = silent or false
+
 	if boo_buffer ~= nil and vim.api.nvim_buf_is_valid(boo_buffer) then
 		vim.api.nvim_buf_delete(boo_buffer, { force = true })
 	end
@@ -48,7 +50,9 @@ function M.boo()
 			buffer = 0,
 			desc = 'Opens boo when holding the cursor',
 			group = vim.api.nvim_create_augroup('Openboo', { clear = true }),
-			callback = open_callback,
+			callback = function()
+				open_callback(config.silent_cursor_hold)
+			end,
 		})
 	end
 	vim.api.nvim_set_option_value('buftype', 'nofile', { buf = boo_buffer })
@@ -56,7 +60,7 @@ function M.boo()
 	vim.api.nvim_set_option_value('readonly', true, { buf = boo_buffer })
 
 	local lsp_info = get_lsp_info()
-	if #lsp_info <= 0 then
+	if not silent and #lsp_info <= 0 then
 		vim.notify('No info available', vim.log.levels.INFO, { title = 'boo' })
 		return
 	end
