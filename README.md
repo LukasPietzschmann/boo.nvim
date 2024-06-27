@@ -73,5 +73,14 @@ Here comes the default configuration with some explanation:
 	-- will be closed. This makes most sense when paired with
 	-- `focus_on_open = false`
 	close_on_mouse_move = true,
+	-- Opens boo whenever the `CursorHold` autocommand triggers. Notice that
+	-- if you have set the `updatetime` to a low value, turning this on might
+	-- be annoying.
+	open_on_cursor_hold = false,
+	-- Determines if any info messages are shown when boo is opened by the
+	-- `CursorHold` autocommand. Currently, the only info message is the one
+	-- telling the user that there is nothing to display for the element
+	-- underneath the cursor.
+	silent_cursor_hold = true,
 }
 ```
